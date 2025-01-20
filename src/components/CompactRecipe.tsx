@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import { ChevronDown, ChevronUp, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
