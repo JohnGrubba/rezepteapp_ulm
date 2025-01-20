@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Rezept {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  header_img  String?
+  rating      Float?
+  creator     String
+  zutaten     Zutat[]
+  steps       RezeptStep[]
+}
+
+model RezeptStep {
+  step_id  Int     @id @default(autoincrement())
+  text     String
+  Rezept   Rezept? @relation(fields: [rezeptId], references: [id])
+  rezeptId Int?
+}
+
+model Zutat {
+  name     String  @id
+  type     String?
+  amount   String?
+  Rezept   Rezept? @relation(fields: [rezeptId], references: [id])
+  rezeptId Int?
+
+  @@unique([name, type])
+}
