@@ -7,8 +7,8 @@ import { SessionProvider } from "next-auth/react"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Tasty Shares - Recipe Sharing Community",
-  description: "Share and discover delicious recipes from around the world",
+  title: "Rezeptify",
+  description: "Rezeptee",
 }
 
 export default function RootLayout({
