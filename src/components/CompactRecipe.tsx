@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import Image from "next/legacy/image"
+import Image from "next/image"
 import { ChevronDown, ChevronUp, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -9,8 +9,8 @@ import { StarRating } from "./star-rating"
 
 interface Zutat {
     name: string
-    type?: string
-    amount?: string
+    type: string | null
+    amount: string | null
 }
 
 interface RezeptStep {
@@ -22,9 +22,9 @@ interface CompactRecipeViewProps {
     recipe: {
         id: number
         name: string
-        description?: string
-        header_img?: string
-        rating?: number
+        description: string | null
+        header_img: string | null
+        rating: number | null
         creator: string
         zutaten: Zutat[]
         steps: RezeptStep[]
@@ -36,10 +36,17 @@ export function CompactRecipeView({ recipe }: CompactRecipeViewProps) {
     const [stepsOpen, setStepsOpen] = useState(false)
 
     return (
-        <Card className="w-full max-w-md overflow-hidden">
+        (<Card className="w-full max-w-md overflow-hidden">
             {recipe.header_img && (
                 <div className="relative h-48 w-full">
-                    <Image src={recipe.header_img || "/placeholder.svg"} alt={recipe.name} layout="fill" objectFit="cover" />
+                    <Image
+                        src={recipe.header_img || "/placeholder.svg"}
+                        alt={recipe.name}
+                        fill
+                        sizes="100vw"
+                        style={{
+                            objectFit: "cover"
+                        }} />
                 </div>
             )}
             <CardHeader>
@@ -88,7 +95,7 @@ export function CompactRecipeView({ recipe }: CompactRecipeViewProps) {
                     </CollapsibleContent>
                 </Collapsible>
             </CardContent>
-        </Card>
-    )
+        </Card>)
+    );
 }
 

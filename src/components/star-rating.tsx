@@ -5,8 +5,7 @@ interface StarRatingProps {
 }
 
 export function StarRating({ rating }: StarRatingProps) {
-    const fullStars = Math.floor(rating)
-    const hasHalfStar = rating % 1 >= 0.5
+    const fullStars = Math.round(rating)
 
     return (
         <div className="flex items-center">
@@ -14,8 +13,6 @@ export function StarRating({ rating }: StarRatingProps) {
                 <span key={i} className="text-yellow-400">
                     {i < fullStars ? (
                         <Star className="fill-current" />
-                    ) : i === fullStars && hasHalfStar ? (
-                        <StarHalf className="fill-current" />
                     ) : (
                         <Star />
                     )}

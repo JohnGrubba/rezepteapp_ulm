@@ -10,7 +10,7 @@ const page = async () => {
         }
     })
     return (
-        <div>
+        <div className='flex gap-3 flex-wrap'>
             {recipes.map((recipe) => (
                 <CompactRecipeView recipe={recipe} key={recipe.id} />
             ))}
