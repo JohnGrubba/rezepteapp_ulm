@@ -1,6 +1,4 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { signIn } from "next-auth/react"
 import { auth } from "@/auth"
 import SignIn from "./SignIn"
 
@@ -31,7 +29,16 @@ export default async function Header() {
                             </Link>
                         </li>
                         <li>
-                            <SignIn />
+                            {session ? (
+                                <div>
+                                    <Link href="/account" className="text-gray-600 hover:text-orange-500">
+                                        <img src={session.user?.image || ""} width={32} className='rounded-full' alt="Profile" />
+                                    </Link>
+                                </div>
+
+                            ) : (
+                                <SignIn />
+                            )}
                         </li>
                     </ul>
                 </nav>

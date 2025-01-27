@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { StarRating } from "./star-rating"
+import { starRecipe } from "@/lib/actions/starRecipe"
+import { useSession } from "next-auth/react"
 
 interface Zutat {
     name: string
@@ -38,6 +40,9 @@ export default function CompactRecipeView({ recipe, isStarred = false }: Compact
     const [isExpanded, setIsExpanded] = useState(false);
     const MAX_CHARS = 150;
 
+    async function starRecipeCallabck() {
+        await starRecipe(recipe.id)
+    }
 
     return (
         (<Card className="w-full max-w-md overflow-hidden flex-0">
@@ -65,7 +70,7 @@ export default function CompactRecipeView({ recipe, isStarred = false }: Compact
                 </div>
             </CardHeader>
             <CardContent>
-                <button className="absolute -translate-y-[295px] -translate-x-3 p-2 bg-white rounded-full shadow-md">
+                <button onClick={starRecipeCallabck} className="absolute -translate-y-[295px] -translate-x-3 p-2 bg-white rounded-full shadow-md">
                     {isStarred ? <Star className="h-6 w-6 text-yellow-500" /> : <Star className="h-6 w-6 text-yellow-500" />}
                 </button>
                 {recipe.description && (
