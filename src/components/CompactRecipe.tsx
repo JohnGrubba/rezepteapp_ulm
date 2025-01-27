@@ -1,12 +1,12 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { ChevronDown, ChevronUp, Star, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { StarRating } from "./star-rating"
-import { starRecipe } from "@/lib/actions/starRecipe"
+import { checkIsStarred, starRecipe } from "@/lib/actions/starRecipe"
 import { useSession } from "next-auth/react"
 
 interface Zutat {
@@ -30,18 +30,30 @@ interface CompactRecipeViewProps {
         creator: string
         zutaten: Zutat[]
         steps: RezeptStep[]
-    },
-    isStarred: boolean
+    }
 }
 
-export default function CompactRecipeView({ recipe, isStarred = false }: CompactRecipeViewProps) {
+export default function CompactRecipeView({ recipe }: CompactRecipeViewProps) {
+    const session = useSession()
     const [ingredientsOpen, setIngredientsOpen] = useState(false)
     const [stepsOpen, setStepsOpen] = useState(false)
     const [isExpanded, setIsExpanded] = useState(false);
+    const [isStarred, setIsStarred] = useState(false);
+    const [isLoadingStarred, setIsLoadingStarred] = useState(true);
     const MAX_CHARS = 150;
 
+    useEffect(() => {
+        checkIsStarred(recipe.id).then((res) => {
+            setIsStarred(res);
+            setIsLoadingStarred(false)
+            console.log(res)
+        })
+    }, [])
+
     async function starRecipeCallabck() {
+        console.log(session)
         await starRecipe(recipe.id)
+        setIsStarred(!isStarred)
     }
 
     return (
@@ -70,9 +82,12 @@ export default function CompactRecipeView({ recipe, isStarred = false }: Compact
                 </div>
             </CardHeader>
             <CardContent>
-                <button onClick={starRecipeCallabck} className="absolute -translate-y-[295px] -translate-x-3 p-2 bg-white rounded-full shadow-md">
-                    {isStarred ? <Star className="h-6 w-6 text-yellow-500" /> : <Star className="h-6 w-6 text-yellow-500" />}
-                </button>
+                {isLoadingStarred ? (<></>) : (
+                    <button onClick={starRecipeCallabck} className="absolute -translate-y-[295px] -translate-x-3 p-2 bg-white rounded-full shadow-md">
+                        {isStarred ? <Star className="h-6 w-6 text-yellow-500 fill-current" /> : <Star className="h-6 w-6 text-yellow-500" />}
+                    </button>
+                )}
+
                 {recipe.description && (
                     <div className="mb-4 text-sm text-gray-600">
                         <p>

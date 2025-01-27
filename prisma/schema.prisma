@@ -17,7 +17,9 @@ model RezeptStar {
   id       Int    @id @default(autoincrement())
   rezept   Rezept @relation(fields: [rezeptId], references: [id])
   user     String
-  rezeptId Int    @unique
+  rezeptId Int
+
+  @@unique([rezeptId, user])
 }
 
 model Rezept {

@@ -58,7 +58,7 @@ const RecipeList = async ({ type }: { type: "starred" | "yoursUploaded" | "all" 
     return (
         <div className='flex gap-3 flex-wrap w-full justify-center'>
             {recipes.map((recipe) => (
-                <CompactRecipeView recipe={recipe} isStarred={false} key={recipe.id} />
+                <CompactRecipeView recipe={recipe} key={recipe.id} />
             ))}
         </div>
     )
