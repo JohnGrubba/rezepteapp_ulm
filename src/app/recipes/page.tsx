@@ -1,4 +1,4 @@
-import { CompactRecipeView } from '@/components/CompactRecipe'
+import RecipeList from '@/components/RecipeList'
 import { prisma } from '@/lib/prismaclient'
 import React from 'react'
 
@@ -10,11 +10,7 @@ const page = async () => {
         }
     })
     return (
-        <div className='flex gap-3 flex-wrap'>
-            {recipes.map((recipe) => (
-                <CompactRecipeView recipe={recipe} key={recipe.id} />
-            ))}
-        </div>
+        <RecipeList type="all" />
     )
 }
 

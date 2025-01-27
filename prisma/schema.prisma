@@ -13,6 +13,13 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+model RezeptStar {
+  id       Int    @id @default(autoincrement())
+  rezept   Rezept @relation(fields: [rezeptId], references: [id])
+  user     String
+  rezeptId Int    @unique
+}
+
 model Rezept {
   id          Int          @id @default(autoincrement())
   name        String
@@ -22,6 +29,7 @@ model Rezept {
   creator     String
   zutaten     Zutat[]
   steps       RezeptStep[]
+  RezeptStar  RezeptStar[]
 }
 
 model RezeptStep {
@@ -37,6 +45,4 @@ model Zutat {
   amount   String?
   Rezept   Rezept? @relation(fields: [rezeptId], references: [id])
   rezeptId Int?
-
-  @@unique([name, type])
 }

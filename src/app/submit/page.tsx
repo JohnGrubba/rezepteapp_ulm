@@ -6,13 +6,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { addRecipe } from "./subm"
 import { Prisma } from "@prisma/client"
 import { useSession } from "next-auth/react"
+import { addRecipe } from "@/lib/actions/subm"
 
 
 export default function RecipeForm() {
     const { data: session } = useSession()
+    if (!session) return <div className="font-bold text-2xl text-center">Sign in to submit a recipe</div>
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const [headerImg, setHeaderImg] = useState("")
