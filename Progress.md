@@ -11,3 +11,4 @@ Todo for Today:
 Todo for Today:
 - <input type="checkbox" disabled /> Create Recipe Detail Page
 - <input type="checkbox" disabled checked /> Create AI Recipe Summary Generation
+- <input type="checkbox" disabled checked /> Create Recipe Starring Functionality
