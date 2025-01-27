@@ -76,6 +76,10 @@ export default function RecipeForm() {
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="Describe your recipe"
                     />
+                    <p className="text-sm text-muted-foreground mt-2 italic flex items-center gap-2">
+                        <span>✨</span>
+                        Leave blank for an AI-generated description
+                    </p>
                 </div>
 
                 <div>
