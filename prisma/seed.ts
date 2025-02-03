@@ -4,6 +4,7 @@ async function main() {
     await prisma.rezept.create({
         data: {
             name: "Spaghetti Carbonara",
+            header_img: "https://www.gutekueche.at/storage/media/recipe/101383/resp/spaghetti-carbonara___webp_940_626.webp",
             creator: "jonas.grubbauer@outlook.com",
             description: "A classic Italian dish",
             steps: {
@@ -28,6 +29,7 @@ async function main() {
     await prisma.rezept.create({
         data: {
             name: "Spaghetti Bolognese",
+            header_img: "https://www.gutekueche.at/storage/media/recipe/140784/conv/spaghetti-bolognese-default.jpg",
             creator: "jonas.grubbauer@outlook.com",
             description: "A classic Italian dish",
             steps: {
@@ -51,7 +53,8 @@ async function main() {
     await prisma.rezept.create({
         data: {
             name: "Chicken Curry",
-            creator: "jonas.grubbauer@outlook.com",
+            header_img: "https://www.gutekueche.at/storage/media/recipe/37643/resp/kardamom-kokos-chicken-curry_1489565314___webp_620_413.webp",
+            creator: "indian.master@outlook.com",
             description: "A classic Indian dish",
             steps: {
                 create: [

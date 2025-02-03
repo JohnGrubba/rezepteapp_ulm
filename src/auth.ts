@@ -5,5 +5,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [MicrosoftEntraID({
         clientId: process.env.AUTH_MICROSOFT_ENTRA_ID_ID,
         clientSecret: process.env.AUTH_MICROSOFT_ENTRA_ID_SECRET,
-    })]
+    })],
+    trustHost: true
 })

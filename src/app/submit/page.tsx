@@ -13,11 +13,9 @@ import { addRecipe } from "@/lib/actions/subm"
 
 export default function RecipeForm() {
     const { data: session } = useSession()
-    if (!session) return <div className="font-bold text-2xl text-center">Sign in to submit a recipe</div>
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const [headerImg, setHeaderImg] = useState("")
-    const [rating, setRating] = useState(0)
     const [ingredients, setIngredients] = useState<Prisma.ZutatCreateInput[]>([{ name: "", type: "", amount: "" }])
     const [steps, setSteps] = useState<Prisma.RezeptStepCreateInput[]>([{ text: "" }])
 
@@ -45,9 +43,11 @@ export default function RecipeForm() {
             return
         }
         // Here you would typically send the data to your backend
-        console.log({ name, description, headerImg, rating, ingredients, steps, creator: session.user.email })
-        await addRecipe({ name: name, description: description, header_img: headerImg, rating: rating, creator: session.user.email }, ingredients, steps)
+        console.log({ name, description, headerImg, ingredients, steps, creator: session.user.email })
+        await addRecipe({ name: name, description: description, header_img: headerImg, creator: session.user.email }, ingredients, steps)
     }
+
+    if (!session) return <div className="font-bold text-2xl text-center">Sign in to submit a recipe</div>
 
     return (
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 space-y-8">
@@ -91,24 +91,12 @@ export default function RecipeForm() {
                         placeholder="Enter image URL"
                     />
                 </div>
-
-                <div>
-                    <Label htmlFor="rating">Rating</Label>
-                    <Input
-                        id="rating"
-                        type="number"
-                        min="0"
-                        max="5"
-                        step="0.1"
-                        value={rating}
-                        onChange={(e) => setRating(Number(e.target.value))}
-                        placeholder="Rate your recipe (0-5)"
-                    />
-                </div>
             </div>
 
             <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">Ingredients</h2>
+                <p className="text-gray-500">Note that the amount here is for one serving</p>
+
                 {ingredients.map((ingredient, index) => (
                     <div key={index} className="flex items-center space-x-2">
                         <Input

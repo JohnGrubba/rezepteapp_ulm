@@ -23,15 +23,15 @@ model RezeptStar {
 }
 
 model Rezept {
-  id          Int          @id @default(autoincrement())
-  name        String
-  description String?
-  header_img  String?
-  rating      Float?
-  creator     String
-  zutaten     Zutat[]
-  steps       RezeptStep[]
-  RezeptStar  RezeptStar[]
+  id             Int          @id @default(autoincrement())
+  name           String
+  description    String?
+  header_img     String?
+  creator        String
+  serving_amount Int          @default(1)
+  zutaten        Zutat[]
+  steps          RezeptStep[]
+  RezeptStar     RezeptStar[]
 }
 
 model RezeptStep {
@@ -42,7 +42,8 @@ model RezeptStep {
 }
 
 model Zutat {
-  name     String  @id
+  id       Int     @id @default(autoincrement())
+  name     String
   type     String?
   amount   String?
   Rezept   Rezept? @relation(fields: [rezeptId], references: [id])

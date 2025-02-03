@@ -1,4 +1,4 @@
-20.01.2025
+## 20.01.2025
 
 Todo for Today:
 - <input type="checkbox" disabled checked /> Create a new repository
@@ -6,9 +6,14 @@ Todo for Today:
 - <input type="checkbox" disabled checked /> Create Recipe Submission Page
 - <input type="checkbox" disabled checked /> Create Recipe Short View Page
 
-27.01.2025
+## 27.01.2025
 
 Todo for Today:
 - <input type="checkbox" disabled /> Create Recipe Detail Page
 - <input type="checkbox" disabled checked /> Create AI Recipe Summary Generation
 - <input type="checkbox" disabled checked /> Create Recipe Starring Functionality
+
+## 03.02.2025
+
+Todo for Today:
+- <input type="checkbox" disabled /> Create Recipe Detail Page

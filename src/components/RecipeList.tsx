@@ -44,7 +44,7 @@ const RecipeList = async ({ type }: { type: "starred" | "yoursUploaded" | "all" 
         case "yoursUploaded": {
             recipes = await prisma.rezept.findMany({
                 where: {
-                    creator: sess?.user?.id
+                    creator: sess?.user?.email as string
                 },
                 include: {
                     steps: true,
