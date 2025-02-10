@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 
-export async function generateAIDescription(zutaten: Prisma.ZutatCreateInput[], steps: Prisma.RezeptStepCreateInput[]): Promise<string> {
+export async function generateAIDescription(zutaten: (Prisma.ZutatCreateInput | Prisma.ZutatMaxAggregateOutputType)[], steps: (Prisma.RezeptStepCreateInput | Prisma.RezeptStepMaxAggregateOutputType)[]): Promise<string> {
 
     const zutaten_string = zutaten.map(zutat => zutat.name + " Typ:" + zutat.type + " Menge: " + zutat.amount).join(", ")
     const steps_string = steps.map(step => step.text).join("\n")

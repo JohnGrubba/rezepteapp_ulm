@@ -20,3 +20,35 @@ export async function addRecipe(recipe: Prisma.RezeptCreateInput, zutaten: Prism
     })
     console.log("Recipe added!")
 }
+
+export async function editRecipe(id: number, recipe: Prisma.RezeptCreateInput, zutaten: Prisma.ZutatMaxAggregateOutputType[], steps: any[]) {
+    if (!recipe.description) {
+        recipe.description = await generateAIDescription(zutaten, steps)
+    }
+
+    await prisma.rezept.update({
+        where: {
+            id: id
+        },
+        data: {
+            ...recipe,
+            steps: {
+                updateMany: {
+                    where: {
+                        rezeptId: id
+                    },
+                    data: steps
+                }
+            },
+            zutaten: {
+                updateMany: {
+                    where: {
+                        rezeptId: id
+                    },
+                    data: zutaten
+                }
+            }
+        }
+    })
+    console.log("Recipe added!")
+}

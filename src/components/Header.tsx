@@ -14,11 +14,6 @@ export default async function Header() {
                 <nav>
                     <ul className="flex items-center space-x-4">
                         <li>
-                            <Link href="/" className="text-gray-600 hover:text-orange-500">
-                                Home
-                            </Link>
-                        </li>
-                        <li>
                             <Link href="/recipes" className="text-gray-600 hover:text-orange-500">
                                 Recipes
                             </Link>

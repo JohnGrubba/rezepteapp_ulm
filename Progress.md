@@ -16,4 +16,9 @@ Todo for Today:
 ## 03.02.2025
 
 Todo for Today:
-- <input type="checkbox" disabled /> Create Recipe Detail Page
+- <input type="checkbox" disabled checked /> Create Recipe Detail Page
+
+## 10.02.2025
+
+Todo for Today:
+- <input type="checkbox" disabled checked /> Create Recipe Edit Page

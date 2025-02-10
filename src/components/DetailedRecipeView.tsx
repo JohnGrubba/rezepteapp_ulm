@@ -26,7 +26,7 @@ interface DetailedRecipeViewProps {
         name: string
         description: string | null
         header_img: string | null
-        rating: number | null
+        rating?: number | null
         creator: string
         zutaten: Zutat[]
         steps: RezeptStep[]
