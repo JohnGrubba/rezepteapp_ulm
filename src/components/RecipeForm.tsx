@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Prisma } from "@prisma/client"
 import { useSession } from "next-auth/react"
-import { addRecipe, editRecipe } from "@/lib/actions/subm"
+import { addRecipe, editRecipe, removeRecipe } from "@/lib/actions/subm"
 import { useRouter } from "next/navigation"
 
 interface RecipeFormProps {
@@ -85,6 +85,16 @@ export default function RecipeForm({
     }
     async function handleDelete() {
         console.log("Delete")
+        if (!session?.user?.email) {
+            alert("You need to be signed in to submit a recipe")
+            return
+        }
+        if (!recipeID) {
+            alert("Invalid State, Please reload")
+            return
+        }
+        await removeRecipe(recipeID)
+        router.push(`/`)
     }
 
     if (!session) return <div className="font-bold text-2xl text-center">Sign in to submit a recipe</div>
@@ -92,21 +102,29 @@ export default function RecipeForm({
     return (
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 space-y-8">
             <div className="space-y-2">
-                <h1 className="text-3xl font-bold">Create New Recipe</h1>
-                <p className="text-gray-500">Fill in the details to share your creation with others!</p>
+                <h1 className="text-3xl font-bold">{editMode ? name : "Create New Recipe"}</h1>
+                {editMode && (
+                    <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-foreground">
+                        Note: Recipe name cannot be changed
+                    </div>
+                )}
+                <p className="text-gray-500">{editMode ? "" : "Fill in the details to share your creation with others!"}</p>
             </div>
 
             <div className="space-y-4">
-                <div>
-                    <Label htmlFor="name">Recipe Name</Label>
-                    <Input
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Enter recipe name"
-                        required
-                    />
-                </div>
+                {!editMode && (
+                    <div>
+                        <Label htmlFor="name">Recipe Name</Label>
+                        <Input
+                            id="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Enter recipe name"
+                            required
+                        />
+                    </div>
+                )}
+
 
                 <div>
                     <Label htmlFor="description">Description</Label>

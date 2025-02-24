@@ -15,7 +15,7 @@ datasource db {
 
 model RezeptStar {
   id       Int    @id @default(autoincrement())
-  rezept   Rezept @relation(fields: [rezeptId], references: [id])
+  rezept   Rezept @relation(fields: [rezeptId], references: [id], onDelete: Cascade)
   user     String
   rezeptId Int
 
@@ -37,7 +37,7 @@ model Rezept {
 model RezeptStep {
   step_id  Int     @id @default(autoincrement())
   text     String
-  Rezept   Rezept? @relation(fields: [rezeptId], references: [id])
+  Rezept   Rezept? @relation(fields: [rezeptId], references: [id], onDelete: Cascade)
   rezeptId Int?
 }
 
@@ -46,6 +46,6 @@ model Zutat {
   name     String
   type     String?
   amount   String?
-  Rezept   Rezept? @relation(fields: [rezeptId], references: [id])
+  Rezept   Rezept? @relation(fields: [rezeptId], references: [id], onDelete: Cascade)
   rezeptId Int?
 }

@@ -9,7 +9,7 @@ import StarWrapper from "./star_rating/StarWrapper"
 export default function CompactRecipeView({ recipe }: CompactRecipeViewProps) {
     return (
         (
-            <Card className="w-full max-w-md overflow-hidden flex-0">
+            <Card className="w-full max-w-md min-w-72 overflow-hidden flex-1">
                 {recipe.header_img && (
                     <div className="relative h-48 w-full">
                         <StarWrapper compact={true} recipe_id={recipe.id} className="z-50 absolute top-2 left-2" />

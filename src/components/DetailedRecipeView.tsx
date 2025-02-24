@@ -1,8 +1,10 @@
 import Image from "next/image"
-import { Clock, User, Utensils } from "lucide-react"
+import { Clock, Edit, User, Utensils } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { StarRating } from "./star-rating"
 import StarWrapper from "@/components/star_rating/StarWrapper"
+import { Button } from "./ui/button"
+import Link from "next/link"
 
 interface Zutat {
     name: string
@@ -30,7 +32,7 @@ interface DetailedRecipeViewProps {
 
 export default function DetailedRecipeView({ recipe }: DetailedRecipeViewProps) {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             <div>
                 {recipe.header_img && (
                     <div className="relative h-96 w-full mb-6">
@@ -46,14 +48,15 @@ export default function DetailedRecipeView({ recipe }: DetailedRecipeViewProps) 
                 )}
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-3xl font-bold">{recipe.name}</CardTitle>
-                        <div className="flex items-center justify-between flex-wrap gap-2">
-                            <div className="flex items-center space-x-2">
-                                <User className="h-5 w-5 text-gray-500" />
-                                <span className="text-sm text-gray-500">{recipe.creator}</span>
-                            </div>
-                            {recipe.rating && <StarRating rating={recipe.rating} />}
+                        <div className="flex items-center justify-between">
+                            <CardTitle className="text-3xl font-bold">{recipe.name}</CardTitle>
+                            <Link href={`/recipe/${recipe.id}/edit`} passHref className="border-slate-300 border-2 p-2 rounded-lg">
+
+                                <Edit className="h-4 w-4" />
+                                <span className="sr-only">Edit recipe</span>
+                            </Link>
                         </div>
+                        {/* ...rest of existing header content... */}
                     </CardHeader>
                     <CardContent>
                         <StarWrapper compact={false} recipe_id={recipe.id} />

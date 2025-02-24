@@ -13,7 +13,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
                 <img src={user?.image || ""} width={64} className='rounded-full' alt="Profile" />
 
                 <div>
-                    <h1 className="text-3xl font-bold">Hi, {user?.name}</h1>
+                    <h1 className="md:text-3xl text-xl font-bold">Hi, {user?.name}</h1>
                     <p className="text-muted-foreground">Welcome to your recipe collection</p>
                 </div>
             </div>
