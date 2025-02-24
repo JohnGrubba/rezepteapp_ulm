@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { auth } from "@/auth"
 import SignIn from "./SignIn"
+import { Compass, Upload } from "lucide-react"
 
 export default async function Header() {
     const session = await auth()
@@ -15,12 +16,15 @@ export default async function Header() {
                     <ul className="flex items-center space-x-4">
                         <li>
                             <Link href="/recipes" className="text-gray-600 hover:text-orange-500">
-                                Recipes
+                                <p className="md:block hidden">Explore</p>
+                                <p className="md:hidden block"><Compass /></p>
+
                             </Link>
                         </li>
                         <li>
                             <Link href="/submit" className="text-gray-600 hover:text-orange-500">
-                                Submit Recipe
+                                <p className="md:block hidden">Create</p>
+                                <p className="md:hidden block"><Upload /></p>
                             </Link>
                         </li>
                         <li>

@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Prisma } from "@prisma/client"
 import { useSession } from "next-auth/react"
 import { addRecipe, editRecipe } from "@/lib/actions/subm"
+import { useRouter } from "next/navigation"
 
 interface RecipeFormProps {
     initialName?: string;
@@ -29,6 +30,7 @@ export default function RecipeForm({
     editMode = false,
     recipeID = undefined,
 }: RecipeFormProps) {
+    const router = useRouter()
     const { data: session } = useSession()
     const [name, setName] = useState(initialName)
     const [description, setDescription] = useState(initialDescription)
@@ -77,7 +79,8 @@ export default function RecipeForm({
         }
         // Here you would typically send the data to your backend
         console.log({ name, description, headerImg, ingredients, steps, creator: session.user.email })
-        await editRecipe(recipeID, { name: name, description: description, header_img: headerImg, creator: session.user.email }, ingredients as unknown as Prisma.ZutatMaxAggregateOutputType[], steps)
+        await editRecipe(recipeID, { name: name, description: description, header_img: headerImg, creator: session.user.email }, ingredients as unknown as Prisma.ZutatCreateInput[], steps)
+        router.push(`/recipe/${recipeID}`)
 
     }
     async function handleDelete() {

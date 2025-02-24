@@ -21,10 +21,12 @@ export async function addRecipe(recipe: Prisma.RezeptCreateInput, zutaten: Prism
     console.log("Recipe added!")
 }
 
-export async function editRecipe(id: number, recipe: Prisma.RezeptCreateInput, zutaten: Prisma.ZutatMaxAggregateOutputType[], steps: any[]) {
+export async function editRecipe(id: number, recipe: Prisma.RezeptCreateInput, zutaten: Prisma.ZutatCreateInput[], steps: any[]) {
     if (!recipe.description) {
         recipe.description = await generateAIDescription(zutaten, steps)
     }
+    console.log("Updating recipe")
+    console.log(id, steps, zutaten)
 
     await prisma.rezept.update({
         where: {
@@ -33,22 +35,28 @@ export async function editRecipe(id: number, recipe: Prisma.RezeptCreateInput, z
         data: {
             ...recipe,
             steps: {
-                updateMany: {
-                    where: {
-                        rezeptId: id
-                    },
-                    data: steps
-                }
+                deleteMany: {
+                    rezeptId: id
+                },
+                create: steps.map((step) => {
+                    return {
+                        text: step.text
+                    }
+                })
             },
             zutaten: {
-                updateMany: {
-                    where: {
-                        rezeptId: id
-                    },
-                    data: zutaten
-                }
+                deleteMany: {
+                    rezeptId: id
+                },
+                create: zutaten.map((zutat) => {
+                    return {
+                        name: zutat.name,
+                        type: zutat.type,
+                        amount: zutat.amount
+                    }
+                })
             }
         }
     })
-    console.log("Recipe added!")
+    console.log("Recipe modified!")
 }
