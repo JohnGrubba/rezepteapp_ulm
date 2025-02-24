@@ -1,13 +1,8 @@
-"use client"
-
-import { useState, useEffect } from "react"
 import Image from "next/image"
-import { Clock, User, Utensils, Star } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Clock, User, Utensils } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { StarRating } from "./star-rating"
-import { checkIsStarred, starRecipe } from "@/lib/actions/starRecipe"
-import { useSession } from "next-auth/react"
+import StarWrapper from "@/components/star_rating/StarWrapper"
 
 interface Zutat {
     name: string
@@ -34,22 +29,6 @@ interface DetailedRecipeViewProps {
 }
 
 export default function DetailedRecipeView({ recipe }: DetailedRecipeViewProps) {
-    const session = useSession()
-    const [isStarred, setIsStarred] = useState(false)
-    const [isLoadingStarred, setIsLoadingStarred] = useState(true)
-
-    useEffect(() => {
-        checkIsStarred(recipe.id).then((res) => {
-            setIsStarred(res)
-            setIsLoadingStarred(false)
-        })
-    }, [recipe.id])
-
-    async function starRecipeCallback() {
-        await starRecipe(recipe.id)
-        setIsStarred(!isStarred)
-    }
-
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
@@ -77,16 +56,7 @@ export default function DetailedRecipeView({ recipe }: DetailedRecipeViewProps) 
                         </div>
                     </CardHeader>
                     <CardContent>
-                        {!isLoadingStarred && (
-                            <Button onClick={starRecipeCallback} variant="outline" className="mb-4">
-                                {isStarred ? (
-                                    <Star className="h-5 w-5 text-yellow-500 fill-current mr-2" />
-                                ) : (
-                                    <Star className="h-5 w-5 text-yellow-500 mr-2" />
-                                )}
-                                {isStarred ? "Unstar Recipe" : "Star Recipe"}
-                            </Button>
-                        )}
+                        <StarWrapper compact={false} recipe_id={recipe.id} />
                         {recipe.description && <p className="text-gray-600 mb-4">{recipe.description}</p>}
                         <div className="flex items-center space-x-4 mb-4">
                             <div className="flex items-center">
