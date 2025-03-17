@@ -5,32 +5,9 @@ import { StarRating } from "./star-rating"
 import StarWrapper from "@/components/star_rating/StarWrapper"
 import { Button } from "./ui/button"
 import Link from "next/link"
+import { Prisma, Rezept } from "@prisma/client"
 
-interface Zutat {
-    name: string
-    type: string | null
-    amount: string | null
-}
-
-interface RezeptStep {
-    step_id: number
-    text: string
-}
-
-interface DetailedRecipeViewProps {
-    recipe: {
-        id: number
-        name: string
-        description: string | null
-        header_img: string | null
-        rating?: number | null
-        creator: string
-        zutaten: Zutat[]
-        steps: RezeptStep[]
-    }
-}
-
-export default function DetailedRecipeView({ recipe }: DetailedRecipeViewProps) {
+export default function DetailedRecipeView({ recipe }: { recipe: Rezept }) {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             <div>
@@ -64,11 +41,11 @@ export default function DetailedRecipeView({ recipe }: DetailedRecipeViewProps) 
                         <div className="flex items-center space-x-4 mb-4">
                             <div className="flex items-center">
                                 <Clock className="h-5 w-5 text-gray-500 mr-2" />
-                                <span>30 min</span>
+                                <span>{recipe.preparation_time_min} min</span>
                             </div>
                             <div className="flex items-center">
                                 <Utensils className="h-5 w-5 text-gray-500 mr-2" />
-                                <span>4 servings</span>
+                                <span>{recipe.serving_amount} servings</span>
                             </div>
                         </div>
                     </CardContent>

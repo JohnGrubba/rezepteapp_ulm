@@ -23,15 +23,16 @@ model RezeptStar {
 }
 
 model Rezept {
-  id             Int          @id @default(autoincrement())
-  name           String
-  description    String?
-  header_img     String?
-  creator        String
-  serving_amount Int          @default(1)
-  zutaten        Zutat[]
-  steps          RezeptStep[]
-  RezeptStar     RezeptStar[]
+  id                   Int          @id @default(autoincrement())
+  name                 String
+  description          String?
+  header_img           String?
+  creator              String
+  preparation_time_min Int
+  serving_amount       Int          @default(1)
+  zutaten              Zutat[]
+  steps                RezeptStep[]
+  RezeptStar           RezeptStar[]
 }
 
 model RezeptStep {
