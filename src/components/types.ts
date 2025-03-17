@@ -9,7 +9,7 @@ interface RezeptStep {
     text: string
 }
 
-interface CompactRecipeViewProps {
+export interface CompactRecipeViewProps {
     recipe: {
         id: number
         name: string

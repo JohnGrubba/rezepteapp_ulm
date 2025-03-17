@@ -5,6 +5,7 @@ import { StarRating } from "./star-rating"
 import Link from "next/link"
 import CompaceList from "./CompaceList"
 import StarWrapper from "./star_rating/StarWrapper"
+import { CompactRecipeViewProps } from "./types"
 
 export default function CompactRecipeView({ recipe }: CompactRecipeViewProps) {
     return (
