@@ -5,9 +5,9 @@ import { StarRating } from "./star-rating"
 import StarWrapper from "@/components/star_rating/StarWrapper"
 import { Button } from "./ui/button"
 import Link from "next/link"
-import { Prisma, Rezept } from "@prisma/client"
+import { RezeptJoined } from "./types"
 
-export default function DetailedRecipeView({ recipe }: { recipe: Rezept }) {
+export default function DetailedRecipeView({ recipe }: { recipe: RezeptJoined }) {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             <div>

@@ -1,13 +1,12 @@
 import Image from "next/image"
 import { User } from "lucide-react"
 import { Card, CardHeader, CardTitle } from "@/components/ui/card"
-import { StarRating } from "./star-rating"
 import Link from "next/link"
 import CompaceList from "./CompaceList"
 import StarWrapper from "./star_rating/StarWrapper"
-import { CompactRecipeViewProps } from "./types"
+import { RezeptJoined } from "./types"
 
-export default function CompactRecipeView({ recipe }: CompactRecipeViewProps) {
+export default function CompactRecipeView({ recipe }: { recipe: RezeptJoined }) {
     return (
         (
             <Card className="w-full max-w-md min-w-72 overflow-hidden flex-1">
@@ -36,7 +35,6 @@ export default function CompactRecipeView({ recipe }: CompactRecipeViewProps) {
                                 <User className="h-4 w-4 text-gray-500" />
                                 <span className="text-sm text-gray-500">{recipe.creator}</span>
                             </div>
-                            {recipe.rating && <StarRating rating={recipe.rating} />}
                         </div>
                     </Link>
                 </CardHeader>
