@@ -30,7 +30,7 @@ export async function addRecipe(recipe: Prisma.RezeptCreateInput, zutaten: Prism
         console.log("No rights!")
         return;
     }
-    await prisma.rezept.create({
+    const item = await prisma.rezept.create({
         data: {
             ...recipe,
             steps: {
@@ -42,6 +42,7 @@ export async function addRecipe(recipe: Prisma.RezeptCreateInput, zutaten: Prism
         }
     })
     console.log("Recipe added!")
+    return item.id
 }
 export async function removeRecipe(id: number) {
     if (! await checkRights(id)) {

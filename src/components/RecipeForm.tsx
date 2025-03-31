@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { PlusCircle, Save, Trash, Trash2 } from "lucide-react"
+import { Loader2Icon, PlusCircle, Save, Trash, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -35,8 +35,11 @@ export default function RecipeForm({
     const [name, setName] = useState(initialName)
     const [description, setDescription] = useState(initialDescription)
     const [headerImg, setHeaderImg] = useState(initialHeaderImg)
+    const [preparationTime, setPreparationTime] = useState(0)
     const [ingredients, setIngredients] = useState<(Prisma.ZutatCreateInput | Prisma.ZutatMaxAggregateOutputType)[]>(initialIngredients)
     const [steps, setSteps] = useState<Prisma.RezeptStepCreateInput[]>(initialSteps)
+
+    const [loading, setLoading] = useState(false)
 
     const addIngredient = () => {
         setIngredients([...ingredients, { name: "", type: "", amount: "" }])
@@ -55,6 +58,7 @@ export default function RecipeForm({
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
+        setLoading(true)
         e.preventDefault()
         console.log(session)
         if (!session?.user?.email) {
@@ -63,10 +67,12 @@ export default function RecipeForm({
         }
         // Here you would typically send the data to your backend
         console.log({ name, description, headerImg, ingredients, steps, creator: session.user.email })
-        await addRecipe({ name: name, description: description, header_img: headerImg, creator: session.user.email }, ingredients as unknown as Prisma.ZutatCreateInput[], steps)
+        const new_id = await addRecipe({ name: name, description: description, header_img: headerImg, creator: session.user.email, preparation_time_min: preparationTime }, ingredients as unknown as Prisma.ZutatCreateInput[], steps)
+        router.push(`/recipe/${new_id}`)
     }
 
     async function handleUpdate() {
+        setLoading(true)
         console.log("Update")
         console.log(session)
         if (!session?.user?.email) {
@@ -79,9 +85,8 @@ export default function RecipeForm({
         }
         // Here you would typically send the data to your backend
         console.log({ name, description, headerImg, ingredients, steps, creator: session.user.email })
-        await editRecipe(recipeID, { name: name, description: description, header_img: headerImg, creator: session.user.email }, ingredients as unknown as Prisma.ZutatCreateInput[], steps)
+        await editRecipe(recipeID, { name: name, description: description, header_img: headerImg, creator: session.user.email, preparation_time_min: preparationTime }, ingredients as unknown as Prisma.ZutatCreateInput[], steps)
         router.push(`/recipe/${recipeID}`)
-
     }
     async function handleDelete() {
         console.log("Delete")
@@ -221,20 +226,34 @@ export default function RecipeForm({
             </div>
 
 
+            <div>
+                <Label htmlFor="headerImg">Preparation Time (in minutes)</Label>
+                <Input
+                    value={preparationTime || 0}
+                    onChange={(e) => {
+                        setPreparationTime(parseInt(e.target.value))
+                    }}
+                    placeholder="Preparation Time (in minutes)"
+                    type="number"
+                />
+            </div>
+
+
+
 
             {editMode ? (
                 <div className="flex gap-2">
-                    <Button type="button" className="w-full" onClick={handleUpdate}>
-                        Update Recipe <Save />
+                    <Button type="button" className="w-full" onClick={handleUpdate} disabled={loading}>
+                        {loading ? <Loader2Icon className="animate-spin h-4 w-4" /> : <><Save className="h-4 w-4 mr-2" /> Save Changes</>}
                     </Button>
-                    <Button type="button" variant="destructive" className="w-full" onClick={handleDelete}>
-                        Delete Recipe <Trash />
+                    <Button type="button" variant="destructive" className="w-full" onClick={handleDelete} disabled={loading}>
+                        {loading ? <Loader2Icon className="animate-spin h-4 w-4" /> : <><Trash className="h-4 w-4 mr-2" /> Delete Recipe</>}
                     </Button>
                 </div>
 
             ) : (
-                <Button type="submit" className="w-full">
-                    Create Recipe
+                <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? <Loader2Icon className="animate-spin h-4 w-4" /> : <><PlusCircle className="h-4 w-4 mr-2" /> Create Recipe</>}
                 </Button>
             )}
 
